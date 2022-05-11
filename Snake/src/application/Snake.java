@@ -8,12 +8,14 @@ import javafx.scene.paint.Color;
 public class Snake {
 	LinkedList<Cell> body; // first element is the tail
 	boolean foodEaten;
+	Color color;
 	
 	public Snake() {
 		body = new LinkedList<>();
 		body.add(new Cell(0, 0));
 		body.add(new Cell(0, 1));
 		foodEaten = false;
+		color = Color.GREEN;
 	}
 	
 	public Cell getHead() {
@@ -36,8 +38,7 @@ public class Snake {
 	}
 
 	public boolean eatsFood(Cell food) {
-		Cell head = getHead();
-		return food.x == head.x && food.y == head.y;
+		return getHead().equals(food);
 	}
 
 	public boolean hits() {
@@ -49,7 +50,7 @@ public class Snake {
 	}
 
 	public void draw(GraphicsContext g) {
-		g.setFill(Color.BLACK);
+		g.setFill(color);
 		for(Cell c: body) {
 			g.fillRect(c.x*Cell.cellSize, c.y*Cell.cellSize, Cell.cellSize, Cell.cellSize);
 		}

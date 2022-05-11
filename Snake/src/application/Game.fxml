@@ -7,6 +7,6 @@
 
 <Pane onKeyPressed="#handleUserInput" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.GameController">
    <children>
-      <Canvas fx:id="canvas" height="260.0" width="275.0" />
+      <Canvas fx:id="canvas" height="300.0" width="300.0" />
    </children>
 </Pane>

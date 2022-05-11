@@ -52,7 +52,7 @@ public class GameController implements Initializable {
 		controller = new SnakeController(g,
 				(int)canvas.getWidth()/Cell.cellSize, 
 				(int)canvas.getHeight()/Cell.cellSize);
-		fps = 30;
+		fps = 20;
 		prev = 0;
 		input = Dir.DOWN;
 		gotInput = false;
