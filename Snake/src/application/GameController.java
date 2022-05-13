@@ -27,8 +27,7 @@ public class GameController implements Initializable {
 	double prev;
 	
 	
-	@FXML
-	private void handleUserInput(KeyEvent e) {
+	public void handleUserInput(KeyEvent e) {
 		switch(e.getCode()) {
 		case LEFT: case RIGHT: case UP: case DOWN:
 			if(!gotInput) {
@@ -47,12 +46,10 @@ public class GameController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		Cell.cellSize = 10;
 		g = canvas.getGraphicsContext2D();
 		controller = new SnakeController(g,
 				(int)canvas.getWidth()/Cell.cellSize, 
 				(int)canvas.getHeight()/Cell.cellSize);
-		fps = 20;
 		prev = 0;
 		input = Dir.DOWN;
 		gotInput = false;

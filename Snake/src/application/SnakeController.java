@@ -3,7 +3,6 @@ package application;
 import java.util.LinkedList;
 import java.util.Random;
 
-import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
