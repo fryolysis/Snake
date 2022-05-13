@@ -6,8 +6,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.Region?>
 
-<Pane onKeyPressed="#handleUserInput" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.GameController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleUserInput" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.GameController">
    <children>
-      <Canvas fx:id="canvas" height="253.0" width="300.0" />
+      <Canvas fx:id="canvas" height="300.0" width="300.0" />
    </children>
 </Pane>

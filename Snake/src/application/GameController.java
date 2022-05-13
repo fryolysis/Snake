@@ -23,6 +23,7 @@ public class GameController implements Initializable {
 	AnimationTimer timer;
 	Dir input;
 	boolean gotInput;
+	boolean paused;
 	double fps;
 	double prev;
 	
@@ -34,6 +35,14 @@ public class GameController implements Initializable {
 				gotInput = true;
 				input = Dir.valueOf(e.getCode().toString());
 			}
+			break;
+		case SPACE:
+			if(paused && !controller.gameOver)
+				timer.start();
+			else
+				timer.stop();
+			paused = !paused;
+			break;
 		default:
 		}
 	}

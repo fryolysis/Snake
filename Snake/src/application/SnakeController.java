@@ -32,14 +32,6 @@ public class SnakeController {
 			gameOver = true;
 		if(eatsFood()) {
 			snake.foodEaten = true;
-			double red = snake.color.getRed();
-			double green = snake.color.getGreen();
-			double blue = snake.color.getBlue();
-			
-			snake.color = new Color(
-					red + (foodColor.getRed()-red) * coeff,
-					green + (foodColor.getGreen()-green) * coeff, 
-					blue + (foodColor.getBlue()-blue) * coeff, 1);
 			spawnFood();
 		}
 	}
@@ -61,7 +53,6 @@ public class SnakeController {
 		} while(!isValidFood(randX, randY));
 
 		food = new Cell(randX, randY);
-		//foodColor = Color.rgb(r.nextInt(256), r.nextInt(256), r.nextInt(256));
 	}
 	
 	private void drawFood() {
