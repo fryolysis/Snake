@@ -14,7 +14,7 @@ import javafx.scene.text.Font;
 
 
 
-public class GameController implements Initializable {
+public class GameController {
 	@FXML
 	Canvas canvas;
 	
@@ -53,8 +53,8 @@ public class GameController implements Initializable {
 				canvas.getWidth()/2);		
 	}
 	
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
+	
+	public void myInitialize() {
 		g = canvas.getGraphicsContext2D();
 		controller = new SnakeController(g,
 				(int)canvas.getWidth()/Cell.cellSize, 
@@ -78,7 +78,6 @@ public class GameController implements Initializable {
 						gameOver();
 					}
 				}
-					
 			}
 		};
 		

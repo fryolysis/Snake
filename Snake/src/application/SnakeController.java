@@ -13,16 +13,14 @@ public class SnakeController {
 	int width, height;
 	GraphicsContext g;
 	boolean gameOver;
-	double coeff;
 	
-	public SnakeController(GraphicsContext g, int height, int width) {
+	public SnakeController(GraphicsContext g, int width, int height) {
 		this.height = height;
 		this.width = width;
 		this.g = g;
 		gameOver = false;
 		snake = new Snake();
 		foodColor = Color.BLUE;
-		coeff = .1;
 		spawnFood();
 	}
 	
