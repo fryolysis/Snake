@@ -3,7 +3,9 @@ package application;
 import javafx.scene.input.KeyCode;
 
 public class Cell {
-	static int cellSize;
+	static final int cellSize = 15;
+	static int numCellsRow;
+	static int numCellsCol;
 	int x;
 	int y;
 	

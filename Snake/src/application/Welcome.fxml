@@ -14,14 +14,10 @@
             <Font name="Dotum" size="35.0" />
          </font>
       </Text>
-      <Label layoutX="20.0" layoutY="108.0" text="Speed: " />
-      <Label layoutX="20.0" layoutY="135.0" text="Cell Size:" />
-      <Label layoutX="20.0" layoutY="162.0" text="Snake Color:" />
-      <Label layoutX="20.0" layoutY="189.0" text="Food Color:" />
-      <ColorPicker fx:id="snakeColorPicker" layoutX="128.0" layoutY="158.0" />
-      <ColorPicker fx:id="foodColorPicker" layoutX="128.0" layoutY="185.0" />
+      <Label layoutX="26.0" layoutY="126.0" text="Difficulty:" />
       <Button layoutX="220.0" layoutY="247.0" mnemonicParsing="false" onAction="#startGame" text="Start" />
-      <Slider fx:id="speedSlider" layoutX="128.0" layoutY="110.0" majorTickUnit="10.0" max="60.0" min="5.0" minorTickCount="0" snapToTicks="true" value="1.0" />
-      <Slider fx:id="cellSizeSlider" layoutX="128.0" layoutY="137.0" majorTickUnit="5.0" max="50.0" min="2.0" minorTickCount="0" snapToTicks="true" />
+      <Slider fx:id="difficultySlider" layoutX="110.0" layoutY="127.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="0" showTickLabels="true" snapToTicks="true" value="1.0" />
+      <Label layoutX="20.0" layoutY="171.0" text="Opponents:" />
+      <Slider fx:id="opponentSlider" layoutX="110.0" layoutY="172.0" majorTickUnit="1.0" max="4.0" minorTickCount="0" showTickLabels="true" snapToTicks="true" value="1.0" />
    </children>
 </Pane>

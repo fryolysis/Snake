@@ -4,9 +4,7 @@ import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.skin.TextInputControlSkin.Direction;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 
@@ -72,9 +70,9 @@ public class GameController {
 	
 	public void myInitialize() {
 		g = canvas.getGraphicsContext2D();
-		controller = new SnakeController(g,
-				(int)canvas.getWidth()/Cell.cellSize, 
-				(int)canvas.getHeight()/Cell.cellSize);
+		Cell.numCellsCol = (int)canvas.getHeight()/Cell.cellSize;
+		Cell.numCellsRow = (int)canvas.getWidth()/Cell.cellSize;
+		controller = new SnakeController(g);
 		prevTime = 0;
 		input = KeyCode.DOWN;
 		prevInput = null;

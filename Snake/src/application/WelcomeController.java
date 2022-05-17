@@ -17,19 +17,15 @@ import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-public class WelcomeController implements Initializable {
+public class WelcomeController {
+
 	@FXML
-	CheckBox snakeToFoodCheckBox;
-	@FXML
-	Slider speedSlider, cellSizeSlider;
-	@FXML
-	ColorPicker snakeColorPicker, foodColorPicker;
+	Slider difficultySlider, opponentSlider;
 	
 	GameController game;
 	
 
 	public void startGame() {
-		Cell.cellSize = (int) cellSizeSlider.getValue();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Game.fxml"));
 		
 		try {
@@ -54,17 +50,8 @@ public class WelcomeController implements Initializable {
 			e1.printStackTrace();
 		}
 		
-		game.controller.snake.color = snakeColorPicker.getValue();
-		game.controller.foodColor = foodColorPicker.getValue();
-		game.fps = speedSlider.getValue();
+		game.fps = 3 * difficultySlider.getValue();
 		
 		
-	}
-
-
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		snakeColorPicker.setValue(Color.BLACK);
-		foodColorPicker.setValue(Color.BLUE);
 	}
 }

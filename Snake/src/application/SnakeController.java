@@ -8,20 +8,17 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 public class SnakeController {
+	final Color foodColor = Color.BROWN;
+	
 	Snake snake;
 	Cell food;
-	Color foodColor;
-	int width, height;
 	GraphicsContext g;
 	boolean gameOver;
 	
-	public SnakeController(GraphicsContext g, int width, int height) {
-		this.height = height;
-		this.width = width;
+	public SnakeController(GraphicsContext g) {
 		this.g = g;
 		gameOver = false;
 		snake = new Snake();
-		foodColor = Color.BLUE;
 		spawnFood();
 	}
 	
@@ -47,8 +44,8 @@ public class SnakeController {
 		Random r = new Random();
 		int randX, randY;
 		do {
-			randY = r.nextInt(height);
-			randX = r.nextInt(width);
+			randY = r.nextInt(Cell.numCellsCol);
+			randX = r.nextInt(Cell.numCellsRow);
 		} while(!isValidFood(randX, randY));
 
 		food = new Cell(randX, randY);
@@ -68,7 +65,7 @@ public class SnakeController {
 	}
 	
 	public void drawFrame() {
-		g.clearRect(0, 0, width*Cell.cellSize, height*Cell.cellSize);
+		g.clearRect(0, 0, Cell.numCellsRow*Cell.cellSize, Cell.numCellsCol*Cell.cellSize);
 		drawFood();
 		snake.draw(g);
 	}
