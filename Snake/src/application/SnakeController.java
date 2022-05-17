@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Random;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 public class SnakeController {
@@ -24,7 +25,7 @@ public class SnakeController {
 		spawnFood();
 	}
 	
-	public void move(Dir input) {
+	public void move(KeyCode input) {
 		snake.move(input);
 		if(hits())
 			gameOver = true;

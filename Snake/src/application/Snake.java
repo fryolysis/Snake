@@ -3,6 +3,7 @@ package application;
 import java.util.LinkedList;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 public class Snake {
@@ -22,7 +23,7 @@ public class Snake {
 		return body.getLast();
 	}
 
-	public void move(Dir input) {
+	public void move(KeyCode input) {
 		int beginIndex = 0;
 		if(foodEaten) {
 			body.addFirst(body.getFirst());

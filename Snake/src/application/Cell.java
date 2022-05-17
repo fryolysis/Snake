@@ -1,5 +1,7 @@
 package application;
 
+import javafx.scene.input.KeyCode;
+
 public class Cell {
 	static int cellSize;
 	int x;
@@ -10,10 +12,10 @@ public class Cell {
 		this.y = y;
 	}
 	
-	public Cell move(Dir dir) {
+	public Cell move(KeyCode input) {
 		Cell res = new Cell(this.x, this.y);
 		
-		switch(dir) {
+		switch(input) {
 		case LEFT:
 			res.x--; break;
 		case RIGHT:
