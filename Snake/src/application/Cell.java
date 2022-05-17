@@ -6,6 +6,7 @@ public class Cell {
 	static final int cellSize = 15;
 	static int numCellsRow;
 	static int numCellsCol;
+	
 	int x;
 	int y;
 	
@@ -27,6 +28,9 @@ public class Cell {
 		case DOWN:
 			res.y++; break;
 		}
+		// wrap the map
+		res.x = (res.x + numCellsRow) % numCellsRow;
+		res.y = (res.y + numCellsCol) % numCellsCol;
 		return res;
 	}
 	

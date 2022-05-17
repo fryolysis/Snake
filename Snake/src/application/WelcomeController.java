@@ -35,7 +35,7 @@ public class WelcomeController {
 			Rectangle2D screen = Screen.getPrimary().getBounds();
 			game.canvas.setWidth(screen.getWidth());
 			game.canvas.setHeight(screen.getHeight());
-			game.myInitialize();
+			game.init();
 			
 			Stage stage = new Stage();
 			stage.setScene(new Scene(root));
@@ -50,7 +50,7 @@ public class WelcomeController {
 			e1.printStackTrace();
 		}
 		
-		game.fps = 3 * difficultySlider.getValue();
+		game.fps = 5 * difficultySlider.getValue();
 		
 		
 	}

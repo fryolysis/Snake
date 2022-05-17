@@ -68,7 +68,7 @@ public class GameController {
 	}
 	
 	
-	public void myInitialize() {
+	public void init() {
 		g = canvas.getGraphicsContext2D();
 		Cell.numCellsCol = (int)canvas.getHeight()/Cell.cellSize;
 		Cell.numCellsRow = (int)canvas.getWidth()/Cell.cellSize;
