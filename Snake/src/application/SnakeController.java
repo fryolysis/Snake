@@ -9,37 +9,43 @@ import javafx.scene.paint.Color;
 
 public class SnakeController {
 	final Color foodColor = Color.BROWN;
-	
-	Snake snake;
+
+	LinkedList<Snake> snakes;
+	int numOfOpponents;
 	Cell food;
 	GraphicsContext g;
 	boolean gameOver;
-	
-	public SnakeController(GraphicsContext g) {
+	boolean foodEaten;
+
+	public SnakeController(GraphicsContext g, int _numOfOpponents) {
 		this.g = g;
 		gameOver = false;
-		snake = new Snake();
+		foodEaten = false;
+		numOfOpponents = _numOfOpponents;
+		snakes = new LinkedList<>();
+		snakes.add(new Snake(this, false)); // player snake
+		for(int i=0; i<numOfOpponents; i++) // opponents
+			snakes.add(new Snake(this, true));
 		spawnFood();
 	}
-	
+
 	public void move(KeyCode input) {
-		snake.move(input);
-		if(hits())
-			gameOver = true;
-		if(eatsFood()) {
-			snake.foodEaten = true;
-			spawnFood();
-		}
+		for(Snake s: snakes)
+			s.move(input);	
 	}
-	
-	private boolean eatsFood() {
-		return snake.eatsFood(food);
+
+	/*
+	 * Called by snakes
+	 */
+	void foodEaten() {
+		spawnFood();
 	}
-	
-	private boolean hits() {
-		return snake.hits();
+
+	// TODO snake hits another snake control
+	void hits() {
+
 	}
-	
+
 	private void spawnFood() {
 		Random r = new Random();
 		int randX, randY;
@@ -50,23 +56,24 @@ public class SnakeController {
 
 		food = new Cell(randX, randY);
 	}
-	
+
 	private void drawFood() {
 		g.setFill(foodColor);
 		g.fillRect(food.x*Cell.cellSize, food.y*Cell.cellSize, Cell.cellSize, Cell.cellSize);
 	}
-	
+
 	private boolean isValidFood(int x, int y) {
-		LinkedList<Cell> body = snake.body;
-		for(Cell c: body)
-			if(c.x == x && c.y == y)
-				return false;
+		for(Snake s: snakes)
+			for(Cell c: s.body)
+				if(c.x == x && c.y == y)
+					return false;
 		return true;
 	}
-	
+
 	public void drawFrame() {
 		g.clearRect(0, 0, Cell.numCellsRow*Cell.cellSize, Cell.numCellsCol*Cell.cellSize);
 		drawFood();
-		snake.draw(g);
+		for(Snake s: snakes)
+			s.draw(g);
 	}
 }

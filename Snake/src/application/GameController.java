@@ -24,6 +24,7 @@ public class GameController {
 	boolean paused;
 	double fps;
 	double prevTime;
+	int numOfOpponents;
 	
 	
 	public void handleUserInput(KeyEvent e) {
@@ -72,7 +73,7 @@ public class GameController {
 		g = canvas.getGraphicsContext2D();
 		Cell.numCellsCol = (int)canvas.getHeight()/Cell.cellSize;
 		Cell.numCellsRow = (int)canvas.getWidth()/Cell.cellSize;
-		controller = new SnakeController(g);
+		controller = new SnakeController(g, numOfOpponents);
 		prevTime = 0;
 		input = KeyCode.DOWN;
 		prevInput = null;

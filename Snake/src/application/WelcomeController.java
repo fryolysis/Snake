@@ -35,6 +35,8 @@ public class WelcomeController {
 			Rectangle2D screen = Screen.getPrimary().getBounds();
 			game.canvas.setWidth(screen.getWidth());
 			game.canvas.setHeight(screen.getHeight());
+			game.fps = 5 * difficultySlider.getValue();
+			game.numOfOpponents = (int) opponentSlider.getValue();
 			game.init();
 			
 			Stage stage = new Stage();
@@ -43,15 +45,14 @@ public class WelcomeController {
 				game.controller.gameOver = true;
 			});
 			stage.setFullScreen(true);
+			stage.setResizable(false);
 			stage.show();
 			root.requestFocus();
 			
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		
-		game.fps = 5 * difficultySlider.getValue();
-		
+
 		
 	}
 }

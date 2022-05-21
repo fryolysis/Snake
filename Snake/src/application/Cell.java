@@ -27,6 +27,8 @@ public class Cell {
 			res.y--; break;
 		case DOWN:
 			res.y++; break;
+		default:
+			;
 		}
 		// wrap the map
 		res.x = (res.x + numCellsRow) % numCellsRow;
