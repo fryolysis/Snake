@@ -31,19 +31,11 @@ public class Snake {
 		if(isOpponent)
 			input = calculateDir();
 		
-		int beginIndex = 0;
-		if(foodEaten) {
-			body.addFirst(body.getFirst());
-			beginIndex = 1;
-			foodEaten = false;
-		}
-			
-		for(int i=beginIndex; i<body.size()-1; i++) {
-			body.set(i, body.get(i+1));
-		}
-
-		body.set(body.size()-1, getHead().move(input));
 		
+		if(!foodEaten)
+			body.removeFirst();
+		body.addLast(getHead().move(input));
+		foodEaten = false;
 		
 		if(ateFood()) {
 			foodEaten = true;
