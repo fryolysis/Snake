@@ -1,83 +1,77 @@
 package application;
 
 import java.util.LinkedList;
+import java.util.Queue;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 public class Snake {
-	final Color color = Color.GREEN;
 	
-	LinkedList<Cell> body; // first element is the tail
-	boolean foodEaten;
-	SnakeController controller;
-	boolean isOpponent;
+	private Cell head;
+	private boolean foodEaten;
+	private final Queue<Cell> body; // first element is the tail
+	private final SnakeController controller;
+	private final boolean isOpponent;
 	
 	public Snake(SnakeController _controller, boolean _isOpponent) {
 		body = new LinkedList<>();
-		body.add(new Cell(0, 0));
-		body.add(new Cell(0, 1));
-		foodEaten = false;
 		isOpponent = _isOpponent;
 		controller = _controller;
+		head = new Cell(0, 0);
+		addCell(head);
+		foodEaten = false;
 	}
 	
-	private Cell getHead() {
-		return body.getLast();
+	
+	private void addCell(Cell c) {
+		body.add(c);
+		controller.alloc(c, this);
+	}
+	
+	private void removeCell() {
+		controller.dealloc(body.remove());
 	}
 
-	public void move(KeyCode input) {
+	
+	void die() {
+		controller.dealloc(body);
+	}
+	
+	void eatFood() {
+		foodEaten = true;
+	}
+	
+	void move(KeyCode input) {
 		if(isOpponent)
 			input = calculateDir();
 		
+		if(foodEaten)
+			foodEaten = false;
+		else
+			removeCell();
 		
-		if(!foodEaten)
-			body.removeFirst();
-		body.addLast(getHead().move(input));
-		foodEaten = false;
+		head = head.move(input);
+		addCell(head);
 		
-		if(ateFood()) {
-			foodEaten = true;
-			controller.foodEaten();
-		}
-		
-		if(hitMyself()) {
-			controller.snakes.remove(this);
-			if(!isOpponent)
-				controller.gameOver = true;
-		}
 	}
 	
 	/**
 	 * strategy to reach food
 	 * very naive logic
+	 * TODO migrate this method to controller
 	 */
 	private KeyCode calculateDir() {
-		Cell head = getHead();
-		Cell food = controller.food;
-		if(food.x == head.x)
-			return KeyCode.UP;
-		else if(food.y == head.y)
-			return KeyCode.RIGHT;
-		else
-			return KeyCode.DOWN;
+		return KeyCode.DOWN;
 	}
 
-	private boolean ateFood() {
-		return getHead().equals(controller.food);
-	}
-
-	private boolean hitMyself() {
-		Cell head = getHead();
-		for(int i=0; i<body.size()-1; i++)
-			if(head.equals(body.get(i)))
-				return true;
-		return false;
-	}
 
 	public void draw(GraphicsContext g) {
-		g.setFill(color);
+		if(isOpponent)
+			g.setFill(Color.CHOCOLATE);
+		else
+			g.setFill(Color.GREENYELLOW);
 		for(Cell c: body) {
 			g.fillRect(c.x*Cell.cellSize, c.y*Cell.cellSize, Cell.cellSize, Cell.cellSize);
 		}

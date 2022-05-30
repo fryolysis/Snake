@@ -1,5 +1,7 @@
 package application;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
 
@@ -8,53 +10,67 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 public class SnakeController {
-	final Color foodColor = Color.BROWN;
-
-	LinkedList<Snake> snakes;
-	int numOfOpponents;
-	Cell food;
-	GraphicsContext g;
-	boolean gameOver;
-	boolean foodEaten;
+	private final Color foodColor = Color.BROWN;
+	private final LinkedList<Snake> snakes;
+	private final HashSet<Cell> occupied;
+	private final int numOfOpponents;
+	private final GraphicsContext g;
+	private Cell food;
 
 	public SnakeController(GraphicsContext g, int _numOfOpponents) {
 		this.g = g;
-		gameOver = false;
-		foodEaten = false;
 		numOfOpponents = _numOfOpponents;
 		snakes = new LinkedList<>();
+		occupied = new HashSet<>();
 		snakes.add(new Snake(this, false)); // player snake
 		for(int i=0; i<numOfOpponents; i++) // opponents
 			snakes.add(new Snake(this, true));
 		spawnFood();
 	}
 
-	public void move(KeyCode input) {
+	void move(KeyCode input) {
 		for(Snake s: snakes)
 			s.move(input);	
 	}
 
-	/*
-	 * Called by snakes
-	 */
-	void foodEaten() {
-		spawnFood();
+	void alloc(Cell c, Snake s) {
+		if(c.equals(food)) {
+			s.eatFood();
+			spawnFood();
+		}
+		else if(!occupied.add(c))
+			kill(s);	
 	}
 
-	// TODO snake hits another snake control
-	void hits() {
-
+	void dealloc(Cell c) {
+		occupied.remove(c);
 	}
-
+	
+	void dealloc(Collection<Cell> cells) {
+		occupied.removeAll(cells);
+	}
+	
+	void drawFrame() {
+		g.clearRect(0, 0, Cell.numCellsRow*Cell.cellSize, Cell.numCellsCol*Cell.cellSize);
+		drawFood();
+		for(Snake s: snakes)
+			s.draw(g);
+	}
+	
+	
+	private void kill(Snake s) {
+		s.die();
+		snakes.remove(s);
+	}
+	
 	private void spawnFood() {
 		Random r = new Random();
 		int randX, randY;
 		do {
 			randY = r.nextInt(Cell.numCellsCol);
 			randX = r.nextInt(Cell.numCellsRow);
-		} while(!isValidFood(randX, randY));
-
-		food = new Cell(randX, randY);
+			food = new Cell(randX, randY);
+		} while(occupied.contains(food));
 	}
 
 	private void drawFood() {
@@ -62,18 +78,4 @@ public class SnakeController {
 		g.fillRect(food.x*Cell.cellSize, food.y*Cell.cellSize, Cell.cellSize, Cell.cellSize);
 	}
 
-	private boolean isValidFood(int x, int y) {
-		for(Snake s: snakes)
-			for(Cell c: s.body)
-				if(c.x == x && c.y == y)
-					return false;
-		return true;
-	}
-
-	public void drawFrame() {
-		g.clearRect(0, 0, Cell.numCellsRow*Cell.cellSize, Cell.numCellsCol*Cell.cellSize);
-		drawFood();
-		for(Snake s: snakes)
-			s.draw(g);
-	}
 }

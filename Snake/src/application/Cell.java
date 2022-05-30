@@ -7,8 +7,8 @@ public class Cell {
 	static int numCellsRow;
 	static int numCellsCol;
 	
-	int x;
-	int y;
+	final int x;
+	final int y;
 	
 	public Cell(int x, int y) {
 		this.x = x;
@@ -16,33 +16,39 @@ public class Cell {
 	}
 	
 	public Cell move(KeyCode input) {
-		Cell res = new Cell(this.x, this.y);
+		int newX = x;
+		int newY = y;
 		
 		switch(input) {
 		case LEFT:
-			res.x--; break;
+			newX--; break;
 		case RIGHT:
-			res.x++; break;
+			newX++; break;
 		case UP:
-			res.y--; break;
+			newY--; break;
 		case DOWN:
-			res.y++; break;
+			newY++; break;
 		default:
 			;
 		}
 		// wrap the map
-		res.x = (res.x + numCellsRow) % numCellsRow;
-		res.y = (res.y + numCellsCol) % numCellsCol;
-		return res;
+		newX = (newX + numCellsRow) % numCellsRow;
+		newY = (newY + numCellsCol) % numCellsCol;
+		return new Cell(newX, newY);
 	}
 	
+	@Override
 	public boolean equals(Object o) {
 		if(o instanceof Cell) {
-			Cell c = (Cell)o;
-			if(c.x == this.x && c.y == this.y)
-				return true;
+			Cell c = (Cell) o;
+			return c.x == x && c.y == y;
 		}
 		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return ( x << 8*(Integer.BYTES/2) ) | y;
 	}
 	
 }

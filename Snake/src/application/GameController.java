@@ -9,7 +9,11 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 
 
-
+enum GameState {
+	PLAY,
+	PAUSE,
+	OVER;
+}
 
 public class GameController {
 	@FXML
@@ -21,7 +25,7 @@ public class GameController {
 	KeyCode input;
 	KeyCode prevInput;
 	boolean gotInput;
-	boolean paused;
+	private GameState state;
 	double fps;
 	double prevTime;
 	int numOfOpponents;
@@ -36,11 +40,17 @@ public class GameController {
 			}
 			break;
 		case SPACE:
-			if(paused && !controller.gameOver)
-				timer.start();
-			else
+			switch(state) {
+			case PLAY:
 				timer.stop();
-			paused = !paused;
+				state = GameState.PAUSE;
+				break;
+			case PAUSE:
+				timer.start();
+				state = GameState.PLAY;
+				break;
+			default:
+			}
 			break;
 		default:
 		}
@@ -62,10 +72,9 @@ public class GameController {
 		}
 	}
 
-	public void gameOver() {
-		g.setFont(Font.font(20));
-		g.strokeText("GAME OVER", canvas.getWidth()/2, 
-				canvas.getWidth()/2);		
+	void gameOver() {
+		state = GameState.OVER;
+		timer.stop();
 	}
 	
 	
@@ -78,22 +87,19 @@ public class GameController {
 		input = KeyCode.DOWN;
 		prevInput = null;
 		gotInput = false;
+		state = GameState.PLAY;
 		
 		
 		timer = new AnimationTimer() {
 			
 			@Override
 			public void handle(long now) {
-				if(now - prevTime > 1000000000L/fps) {
+				if(now - prevTime > 1e9/fps) {
 					prevTime = now;
 					controller.move(input);
 					controller.drawFrame();
 					gotInput = false;
 					prevInput = input;
-					if(controller.gameOver) {
-						timer.stop();
-						gameOver();
-					}
 				}
 			}
 		};
