@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 public class Snake {
@@ -43,7 +42,7 @@ public class Snake {
 		foodEaten = true;
 	}
 	
-	void move(KeyCode input) {
+	void move(Dir input) {
 		if(isOpponent)
 			input = calculateDir();
 		
@@ -62,8 +61,8 @@ public class Snake {
 	 * very naive logic
 	 * TODO migrate this method to controller
 	 */
-	private KeyCode calculateDir() {
-		return KeyCode.DOWN;
+	private Dir calculateDir() {
+		return Dir.DOWN;
 	}
 
 

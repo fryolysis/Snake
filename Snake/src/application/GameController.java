@@ -4,15 +4,13 @@ import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.text.Font;
 
 
 enum GameState {
 	PLAY,
 	PAUSE,
-	OVER;
+	OVER
 }
 
 public class GameController {
@@ -22,8 +20,8 @@ public class GameController {
 	GraphicsContext g;
 	SnakeController controller;
 	AnimationTimer timer;
-	KeyCode input;
-	KeyCode prevInput;
+	Dir input;
+	Dir prevInput;
 	boolean gotInput;
 	private GameState state;
 	double fps;
@@ -34,9 +32,10 @@ public class GameController {
 	public void handleUserInput(KeyEvent e) {
 		switch(e.getCode()) {
 		case LEFT: case RIGHT: case UP: case DOWN:
-			if(!gotInput && !isOppositeDir(e.getCode(), prevInput)) {
+			Dir dir = Dir.fromKeyCode(e.getCode());
+			if(!gotInput &&  dir.getOpposite() != prevInput) {
 				gotInput = true;
-				input = e.getCode();
+				input = dir;
 			}
 			break;
 		case SPACE:
@@ -55,22 +54,6 @@ public class GameController {
 		default:
 		}
 	}
-	
-	
-	private boolean isOppositeDir(KeyCode dir1, KeyCode dir2) {
-		switch(dir1) {
-		case LEFT:
-			return dir2 == KeyCode.RIGHT;
-		case RIGHT:
-			return dir2 == KeyCode.LEFT;
-		case UP:
-			return dir2 == KeyCode.DOWN;
-		case DOWN:
-			return dir2 == KeyCode.UP;
-		default:
-			return false;
-		}
-	}
 
 	void gameOver() {
 		state = GameState.OVER;
@@ -84,7 +67,7 @@ public class GameController {
 		Cell.numCellsRow = (int)canvas.getWidth()/Cell.cellSize;
 		controller = new SnakeController(g, numOfOpponents);
 		prevTime = 0;
-		input = KeyCode.DOWN;
+		input = Dir.DOWN;
 		prevInput = null;
 		gotInput = false;
 		state = GameState.PLAY;

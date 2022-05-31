@@ -2,16 +2,14 @@ package application;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Random;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 public class SnakeController {
 	private final Color foodColor = Color.BROWN;
-	private final LinkedList<Snake> snakes;
+	private final HashSet<Snake> snakes;
 	private final HashSet<Cell> occupied;
 	private final int numOfOpponents;
 	private final GraphicsContext g;
@@ -20,7 +18,7 @@ public class SnakeController {
 	public SnakeController(GraphicsContext g, int _numOfOpponents) {
 		this.g = g;
 		numOfOpponents = _numOfOpponents;
-		snakes = new LinkedList<>();
+		snakes = new HashSet<>();
 		occupied = new HashSet<>();
 		snakes.add(new Snake(this, false)); // player snake
 		for(int i=0; i<numOfOpponents; i++) // opponents
@@ -28,7 +26,7 @@ public class SnakeController {
 		spawnFood();
 	}
 
-	void move(KeyCode input) {
+	void move(Dir input) {
 		for(Snake s: snakes)
 			s.move(input);	
 	}

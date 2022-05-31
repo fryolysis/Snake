@@ -1,7 +1,5 @@
 package application;
 
-import javafx.scene.input.KeyCode;
-
 public class Cell {
 	static final int cellSize = 15;
 	static int numCellsRow;
@@ -15,7 +13,7 @@ public class Cell {
 		this.y = y;
 	}
 	
-	public Cell move(KeyCode input) {
+	public Cell move(Dir input) {
 		int newX = x;
 		int newY = y;
 		
