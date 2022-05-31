@@ -7,7 +7,7 @@ import java.util.Random;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class SnakeController {
+public class SnakeManager {
 	private final Color foodColor = Color.BROWN;
 	private final HashSet<Snake> snakes;
 	private final HashSet<Cell> occupied;
@@ -15,14 +15,14 @@ public class SnakeController {
 	private final GraphicsContext g;
 	private Cell food;
 
-	public SnakeController(GraphicsContext g, int _numOfOpponents) {
+	public SnakeManager(GraphicsContext g, int _numOfOpponents) {
 		this.g = g;
 		numOfOpponents = _numOfOpponents;
 		snakes = new HashSet<>();
 		occupied = new HashSet<>();
-		snakes.add(new Snake(this, false)); // player snake
-		for(int i=0; i<numOfOpponents; i++) // opponents
-			snakes.add(new Snake(this, true));
+		snakes.add(new Snake(this, SnakeType.PLAYER)); // player snake
+		for(int i=0; i<numOfOpponents; i++) // AI snakes
+			snakes.add(new Snake(this, SnakeType.AI));
 		spawnFood();
 	}
 

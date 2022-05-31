@@ -6,21 +6,33 @@ import java.util.Queue;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+
+enum SnakeState {
+	ROAMING,
+	FOOD_EATEN,
+	DEAD
+}
+
+enum SnakeType {
+	PLAYER,
+	AI
+}
+
 public class Snake {
 	
 	private Cell head;
-	private boolean foodEaten;
+	private SnakeState state;
+	private final SnakeType type;
 	private final Queue<Cell> body; // first element is the tail
-	private final SnakeController controller;
-	private final boolean isOpponent;
+	private final SnakeManager controller;
 	
-	public Snake(SnakeController _controller, boolean _isOpponent) {
+	public Snake(SnakeManager _controller, SnakeType _type) {
 		body = new LinkedList<>();
-		isOpponent = _isOpponent;
+		type = _type;
 		controller = _controller;
 		head = new Cell(0, 0);
 		addCell(head);
-		foodEaten = false;
+		state = SnakeState.ROAMING;
 	}
 	
 	
@@ -39,17 +51,22 @@ public class Snake {
 	}
 	
 	void eatFood() {
-		foodEaten = true;
+		state = SnakeState.FOOD_EATEN;
 	}
 	
 	void move(Dir input) {
-		if(isOpponent)
+		if(type == SnakeType.AI)
 			input = calculateDir();
 		
-		if(foodEaten)
-			foodEaten = false;
-		else
+		switch(state) {
+		case ROAMING:
 			removeCell();
+			break;
+		case FOOD_EATEN:
+			state = SnakeState.ROAMING;
+			break;
+		default:
+		}
 		
 		head = head.move(input);
 		addCell(head);
@@ -59,7 +76,7 @@ public class Snake {
 	/**
 	 * strategy to reach food
 	 * very naive logic
-	 * TODO migrate this method to controller
+	 * TODO migrate this method to manager
 	 */
 	private Dir calculateDir() {
 		return Dir.DOWN;
@@ -67,10 +84,14 @@ public class Snake {
 
 
 	public void draw(GraphicsContext g) {
-		if(isOpponent)
-			g.setFill(Color.CHOCOLATE);
-		else
+		switch(type) {
+		case PLAYER:
 			g.setFill(Color.GREENYELLOW);
+			break;
+		case AI:
+			g.setFill(Color.CHOCOLATE);
+			break;
+		}
 		for(Cell c: body) {
 			g.fillRect(c.x*Cell.cellSize, c.y*Cell.cellSize, Cell.cellSize, Cell.cellSize);
 		}

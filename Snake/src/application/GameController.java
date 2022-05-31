@@ -8,7 +8,8 @@ import javafx.scene.input.KeyEvent;
 
 
 enum GameState {
-	PLAY,
+	WAITING,
+	GOT_INPUT,
 	PAUSE,
 	OVER
 }
@@ -18,11 +19,10 @@ public class GameController {
 	Canvas canvas;
 	
 	GraphicsContext g;
-	SnakeController controller;
+	SnakeManager controller;
 	AnimationTimer timer;
 	Dir input;
 	Dir prevInput;
-	boolean gotInput;
 	private GameState state;
 	double fps;
 	double prevTime;
@@ -33,20 +33,20 @@ public class GameController {
 		switch(e.getCode()) {
 		case LEFT: case RIGHT: case UP: case DOWN:
 			Dir dir = Dir.fromKeyCode(e.getCode());
-			if(!gotInput &&  dir.getOpposite() != prevInput) {
-				gotInput = true;
+			if(state == GameState.WAITING &&  dir.getOpposite() != prevInput) {
+				state = GameState.GOT_INPUT;
 				input = dir;
 			}
 			break;
 		case SPACE:
 			switch(state) {
-			case PLAY:
+			case WAITING:
 				timer.stop();
 				state = GameState.PAUSE;
 				break;
 			case PAUSE:
 				timer.start();
-				state = GameState.PLAY;
+				state = GameState.WAITING;
 				break;
 			default:
 			}
@@ -65,12 +65,11 @@ public class GameController {
 		g = canvas.getGraphicsContext2D();
 		Cell.numCellsCol = (int)canvas.getHeight()/Cell.cellSize;
 		Cell.numCellsRow = (int)canvas.getWidth()/Cell.cellSize;
-		controller = new SnakeController(g, numOfOpponents);
+		controller = new SnakeManager(g, numOfOpponents);
 		prevTime = 0;
 		input = Dir.DOWN;
 		prevInput = null;
-		gotInput = false;
-		state = GameState.PLAY;
+		state = GameState.WAITING;
 		
 		
 		timer = new AnimationTimer() {
@@ -81,7 +80,7 @@ public class GameController {
 					prevTime = now;
 					controller.move(input);
 					controller.drawFrame();
-					gotInput = false;
+					state = GameState.WAITING;
 					prevInput = input;
 				}
 			}

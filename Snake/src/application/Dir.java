@@ -2,7 +2,7 @@ package application;
 
 import javafx.scene.input.KeyCode;
 
-public enum Dir {
+enum Dir {
 	LEFT,
 	RIGHT,
 	UP,
