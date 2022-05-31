@@ -24,13 +24,13 @@ public class Snake {
 	private SnakeState state;
 	private final SnakeType type;
 	private final Queue<Cell> body; // first element is the tail
-	private final SnakeManager controller;
+	private final SnakeManager manager;
 	
-	public Snake(SnakeManager _controller, SnakeType _type) {
+	public Snake(SnakeManager _manager, SnakeType _type) {
 		body = new LinkedList<>();
 		type = _type;
-		controller = _controller;
-		head = new Cell(0, 0);
+		manager = _manager;
+		head = manager.allocRandom();
 		addCell(head);
 		state = SnakeState.ROAMING;
 	}
@@ -38,16 +38,16 @@ public class Snake {
 	
 	private void addCell(Cell c) {
 		body.add(c);
-		controller.alloc(c, this);
+		manager.alloc(c, this);
 	}
 	
 	private void removeCell() {
-		controller.dealloc(body.remove());
+		manager.dealloc(body.remove());
 	}
 
 	
 	void die() {
-		controller.dealloc(body);
+		manager.dealloc(body);
 	}
 	
 	void eatFood() {

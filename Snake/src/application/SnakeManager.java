@@ -62,13 +62,19 @@ public class SnakeManager {
 	}
 	
 	private void spawnFood() {
+		food = allocRandom();
+	}
+	
+	Cell allocRandom() {
 		Random r = new Random();
+		Cell res;
 		int randX, randY;
 		do {
 			randY = r.nextInt(Cell.numCellsCol);
 			randX = r.nextInt(Cell.numCellsRow);
-			food = new Cell(randX, randY);
-		} while(occupied.contains(food));
+			res = new Cell(randX, randY);
+		} while(occupied.contains(res));
+		return res;
 	}
 
 	private void drawFood() {
