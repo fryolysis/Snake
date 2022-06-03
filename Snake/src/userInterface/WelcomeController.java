@@ -1,4 +1,4 @@
-package application;
+package userInterface;
 
 import java.io.IOException;
 
@@ -30,7 +30,7 @@ public class WelcomeController {
 			game.canvas.setWidth(screen.getWidth());
 			game.canvas.setHeight(screen.getHeight());
 			game.fps = 5 * difficultySlider.getValue();
-			game.numOfOpponents = (int) opponentSlider.getValue();
+			game.numSnakes = (int) opponentSlider.getValue() + 1;
 			game.init();
 
 			Stage stage = new Stage();

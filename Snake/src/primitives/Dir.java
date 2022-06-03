@@ -1,8 +1,8 @@
-package application;
+package primitives;
 
 import javafx.scene.input.KeyCode;
 
-enum Dir {
+public enum Dir {
 	LEFT,
 	RIGHT,
 	UP,
@@ -18,8 +18,9 @@ enum Dir {
 			return Dir.DOWN;
 		case DOWN:
 			return Dir.UP;
+		default:
+			return null;
 		}
-		return null;
 	}
 	
 	public static Dir fromKeyCode(KeyCode key) {

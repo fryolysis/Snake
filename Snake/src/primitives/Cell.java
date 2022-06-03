@@ -1,12 +1,12 @@
-package application;
+package primitives;
 
 public class Cell {
-	static final int cellSize = 15;
-	static int numCellsRow;
-	static int numCellsCol;
+	public static final int cellSize = 15;
+	public static int numCellsRow;
+	public static int numCellsCol;
 	
-	final int x;
-	final int y;
+	public final int x;
+	public final int y;
 	
 	public Cell(int x, int y) {
 		this.x = x;

@@ -3,5 +3,5 @@ module Snake {
 	requires javafx.fxml;
 	requires javafx.graphics;
 	
-	opens application to javafx.graphics, javafx.fxml;
+	opens userInterface to javafx.graphics, javafx.fxml;
 }

@@ -1,10 +1,13 @@
-package application;
+package userInterface;
 
+import application.Manager;
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
+import primitives.Cell;
+import primitives.Dir;
 
 
 enum GameState {
@@ -18,15 +21,15 @@ public class GameController {
 	@FXML
 	Canvas canvas;
 	
-	GraphicsContext g;
-	SnakeManager controller;
-	AnimationTimer timer;
-	Dir input;
-	Dir prevInput;
+	private GraphicsContext g;
+	private Manager manager;
+	private AnimationTimer timer;
+	private Dir input;
+	private Dir prevInput;
 	private GameState state;
+	private double prevTime;
 	double fps;
-	double prevTime;
-	int numOfOpponents;
+	int numSnakes;
 	
 	
 	public void handleUserInput(KeyEvent e) {
@@ -65,7 +68,7 @@ public class GameController {
 		g = canvas.getGraphicsContext2D();
 		Cell.numCellsCol = (int)canvas.getHeight()/Cell.cellSize;
 		Cell.numCellsRow = (int)canvas.getWidth()/Cell.cellSize;
-		controller = new SnakeManager(g, numOfOpponents);
+		manager = new Manager(g, numSnakes);
 		prevTime = 0;
 		input = Dir.DOWN;
 		prevInput = null;
@@ -78,8 +81,7 @@ public class GameController {
 			public void handle(long now) {
 				if(now - prevTime > 1e9/fps) {
 					prevTime = now;
-					controller.move(input);
-					controller.drawFrame();
+					manager.singleStep(input);
 					state = GameState.WAITING;
 					prevInput = input;
 				}
